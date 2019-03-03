@@ -127,30 +127,18 @@ storiesOf('Button', module)
 ![](./img/notes.png)  
   
 ### 4.3 插件列表
-以下是由storybook team 维护的支持vue的插件列表[github地址](https://github.com/storybooks/storybook/blob/master/ADDONS_SUPPORT.md)
-
-| 插件 | 功能 |
-| :------ | :------ |
-| [a11y](https://github.com/storybooks/storybook/tree/master/addons/a11y) | UI组件易于理解，accessibility |
-| [actions](https://github.com/storybooks/storybook/tree/master/addons/actions) | 打印event数据 |
-| backgrounds | 中等文本 |
-| centered | 中等文本 |
-| events | 中等文本 |
-| google-analytics | 中等文本 |
-| knobs | 中等文本 |
-| links | 中等文本 |
-| notes | 中等文本 |
-| options | 中等文本 |
-| cssresources | 中等文本 |
-| storyshots | 中等文本 |
-| storysource | 中等文本 |
-| viewport | 中等文本 |
+由storybook team 维护的支持vue的插件列表[github地址](https://github.com/storybooks/storybook/blob/master/ADDONS_SUPPORT.md)
 
 此外还有一些有社区提供的插件见[这里](https://storybook.js.org/addons/addon-gallery/)
 
 ### 4.3 插件示例
+下面是部分插件的一些使用示例
+#### 4.3.1 [actions](https://github.com/storybooks/storybook/tree/master/addons/actions)  
 
-#### 4.3.1 actions
+> Storybook Addon Actions can be used to display data received by event handlers in Storybook
+
+该插件主要用于展示event数据
+
 - 安装  
 ```npm i -dev-save @storybook/addon-actions```
 - 注册 addons.js   
@@ -168,7 +156,7 @@ storiesOf('Button', module)
 ```
 ![](./img/action.png)  
 
-如果需要监听多个事件，还可以使用actions()  
+- 如果需要监听多个事件，还可以使用actions()    
 ```javascript
 import { storiesOf } from '@storybook/vue';
 import { actions } from '@storybook/addon-actions'
@@ -183,8 +171,24 @@ storiesOf('Button', module)
   }))
 ```
 ![](./img/actions.png) 
-
-
+- Action Decorators   
+action 装饰器可以控制log的打印数据。如下，args是一个复杂对象，经过处理只打印了inputType 与 value。
+其中 decorate 的入参是函数数组，函数入参是数组参数，出参是数组。decorate的出参是一个对象，包含三个属性action、actions、withActions。action 和 actions 同上。
+```javascript
+import { storiesOf } from '@storybook/vue';
+import { decorate } from '@storybook/addon-actions'
+const firstArg = decorate([
+  args => {
+    return args.map(({ inputType, currentTarget: { value } }) => ({ inputType, currentTarget: { value } }))
+  }
+]);
+storiesOf('Input', module)
+  .add('Input event', () => ({
+    template: '<input value="123" @input="input"></input>',
+    methods: { input: firstArg.action('input') }
+  }))
+```
+![](./img/action-decorators.png) 
 
 
 ## 5. webpack配置

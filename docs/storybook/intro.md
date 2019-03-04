@@ -190,6 +190,85 @@ storiesOf('Input', module)
 ```
 ![](./img/action-decorators.png) 
 
+#### 4.3.2 [backgrounds](https://github.com/storybooks/storybook/tree/master/addons/backgrounds)  
+
+该插件用于改变展示页面的背景色。若组件要应用于某个背景色中，可修改背景色预览效果。
+
+- 安装
+```npm i -D-save @storybook/addon-backgrounds```
+- 注册
+```import '@storybook/addon-backgrounds/register'```  
+- 使用  
+
+1. 局部使用
+修改对应story, 只有button组件生效
+```javascript
+import { storiesOf } from '@storybook/vue';
+import { withBackgrounds } from '@storybook/addon-backgrounds';
+import MyButton from './MyButton.vue';
+storiesOf('MyButton', module)
+  .addDecorator(
+    withBackgrounds([
+      { name: '蓝色背景', value: '#576AFF', default: true },
+      { name: '橙色背景', value: '#F96046' },
+    ])
+  )
+  .add('with text', () => {
+    return {
+      components: { MyButton },
+      props: {
+        isDisabled: true
+      },
+      template: `<my-button>my button</my-button>`
+    }
+  })
+```
+![](./img/background.png) 
+
+2. 全局配置  
+config.js中增加如下代码，所有story都会有两个背景色可选，默认蓝色  
+```javascript
+import { configure, addDecorator } from '@storybook/vue';
+import { withBackgrounds } from '@storybook/addon-backgrounds';
+
+addDecorator(
+  withBackgrounds([
+    { name: '蓝色背景', value: '#576AFF', default: true },
+    { name: '橙色背景', value: '#F96046' },
+  ])
+)
+```
+全局配置下，想修改某个 story 的背景色，调用addParameters 重写背景色
+```javascript
+storiesOf('MyButton', module)
+  .addParameters({
+    backgrounds: [
+      { name: 'red', value: '#F44336' },
+      { name: 'blue', value: '#2196F3', default: true },
+    ],
+  })
+```
+全局配置下，某个 story 不想启用背景色，设置 addParameters 的 backgrounds 为空
+```javascript
+storiesOf('MyButton', module)
+  .addParameters({
+    backgrounds: [],
+  })
+```
+或者使用 disable  
+```javascript
+storiesOf('MyButton', module)
+  .add('with text', () => {
+    return {
+      components: { MyButton },
+      template: `<my-button>my button</my-button>`
+    }
+  },{
+    backgrounds: { disable: true }
+  })
+```
+
+#### 4.3.3 [info](https://github.com/storybooks/storybook/tree/master/addons/info)  
 
 ## 5. webpack配置
 storybook 内部集成 webpack。

@@ -194,13 +194,13 @@ storiesOf('Input', module)
 
 该插件用于改变展示页面的背景色。若组件要应用于某个背景色中，可修改背景色预览效果。
 
-- 安装
+- 安装  
 ```npm i -D-save @storybook/addon-backgrounds```
-- 注册
+- 注册  
 ```import '@storybook/addon-backgrounds/register'```  
-- 使用  
+- 使用    
 
-1. 局部使用
+1. 局部使用  
 修改对应story, 只有button组件生效
 ```javascript
 import { storiesOf } from '@storybook/vue';
@@ -268,7 +268,59 @@ storiesOf('MyButton', module)
   })
 ```
 
-#### 4.3.3 [info](https://github.com/storybooks/storybook/tree/master/addons/info)  
+#### 4.3.3 [storybook-addon-vue-info](https://github.com/pocka/storybook-addon-vue-info)  
 
+官方维护了一个 [info](https://github.com/storybooks/storybook/tree/master/addons/info) 插件，但是目前不支持 vue。[storybook-addon-vue-info](https://github.com/pocka/storybook-addon-vue-info) 提供与 info 类似的功能，支持 vue 框架。
+
+该插件主要用于展示更多组件相关的信息，默认storybook只是展示UI组件的预览效果。
+
+- 安装  
+```npm install --save-dev storybook-addon-vue-info@beta```
+- 注册  
+```import 'storybook-addon-vue-info/lib/register'```
+- webpack配置  
+在.storybook/webpack.config.js中增加如下内容
+```javascript
+module.exports = (base, env, defaultConfig) => {
+  defaultConfig.module.rules.push({
+    test: /\.vue$/,
+    loader: 'storybook-addon-vue-info/loader',
+    enforce: 'post'
+  })
+  return defaultConfig
+}
+```  
+- 使用  
+在config中全局配置(当然也可以在具体story中使用)
+```javascript
+import { setDefaults } from 'storybook-addon-vue-info'
+setDefaults({
+  header: false, // 是否显示头部
+  source: false, // 是否显示源码
+  docsInPanel: false // 显示位置：面板 或 预览区域
+})
+```
+在story中使用, info中的 summary 可接受 markdown 格式的字符串。
+```javascript
+import { storiesOf } from '@storybook/vue';
+import { withInfo } from 'storybook-addon-vue-info'
+import MyButton from './MyButton.vue';
+storiesOf('MyButton', module)
+  .addDecorator(withInfo)
+  .add('with text', () => ({
+    components: { MyButton},
+    template: `<my-button>my button</my-button>`
+  }),{
+    info: {
+      summary: `基本的按钮，使用方式如下：
+      \`\`\`
+      components: { MyButton },
+      template: \`<my-button :isDisabled="isDisabled">my button</my-button>\`
+      \`\`\`     
+      `
+    }
+  })
+```
+![](./img/info.png) 
 ## 5. webpack配置
 storybook 内部集成 webpack。

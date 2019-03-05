@@ -322,5 +322,46 @@ storiesOf('MyButton', module)
   })
 ```
 ![](./img/info.png) 
+
+#### 4.3.4 [knobs](https://github.com/storybooks/storybook/tree/master/addons/knobs)  
+
+该插件可以动态修改props的属性。  
+- 安装    
+```npm install @storybook/addon-knobs --save-dev```
+- 注册    
+```import '@storybook/addon-knobs/register'```
+- 使用  
+```javascript
+import {
+  withKnobs,
+  text,
+  boolean,
+  number
+ } from '@storybook/addon-knobs';
+import MyButton from './MyButton';
+storiesOf('Button', module)
+  .addDecorator(withKnobs)
+  .add('with text', () => {
+    return {
+      components: { MyButton },
+      props: {
+        isDisabled: {
+          //  get a boolean value from the user
+          default: boolean('Disabled', true)
+        },
+        text: {
+          // get some text from the user
+          default: text('button-text', 'Hello Storybook')
+        },
+        count: {
+          default: number('count', 0)
+        }
+      },
+      template: `<my-button :isDisabled="isDisabled">{{ text }} {{ count }}</my-button>`
+    }
+  })
+```
+![](./img/knobs.png) 
+
 ## 5. webpack配置
 storybook 内部集成 webpack。

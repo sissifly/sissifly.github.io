@@ -361,7 +361,7 @@ storiesOf('Button', module)
     }
   })
 ```
-![](./img/knobs.png) 
+![](./img/notes.png) 
 
 ## 5. webpack配置
 storybook 内部集成 webpack。

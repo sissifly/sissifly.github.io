@@ -1,6 +1,6 @@
 # storybook教程
 
-storybook是一套UI组件的开发环境，可以浏览组件库，查看每个组件的不同状态，交互式开发测试组件，目前支持react、vue、angular等主流前端框架。
+storybook是一套UI组件的开发环境，可以浏览组件库，查看每个组件的不同状态，交互式开发测试组件，目前支持react、vue、angular等前端框架。
 
 ## 1. 快速上手
 以vue为例，介绍storybook
@@ -363,5 +363,10 @@ storiesOf('Button', module)
 ```
 ![](./img/knobs.png) 
 
-## 5. webpack配置
-storybook 内部集成 webpack。
+## 5. storybook的发展过程
+storybook 最早称为React storybook，只支持react，从3.0版本更名为story。
+
+3.2版本开始支持Vue。
+最开始是个人项目，2017年4月交由社区开发维护。
+2017年6月开源，版本是3.0.0
+2017年7月，发布3.2版本，支持VUE。

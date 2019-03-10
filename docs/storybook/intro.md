@@ -363,5 +363,4 @@ storiesOf('Button', module)
 ```
 ![](./img/notes.png) 
 
-## 5. webpack配置
-storybook 内部集成 webpack。
+

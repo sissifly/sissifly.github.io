@@ -1,6 +1,6 @@
 # storybook教程
 
-storybook是一套UI组件的开发环境，可以浏览组件库，查看每个组件的不同状态，交互式开发测试组件，目前支持react、vue、angular等主流前端框架。
+storybook是一套UI组件的开发环境，可以浏览组件库，查看每个组件的不同状态，交互式开发测试组件，目前支持react、vue、angular等前端框架。
 
 ## 1. 快速上手
 以vue为例，介绍storybook

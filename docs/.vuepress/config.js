@@ -7,7 +7,9 @@ module.exports = {
         title: '前端',
         collapsable: false,
         children: [
-          '/storybook/intro'
+          '/storybook/intro',
+          '/http2/intro',
+          '/pwa/intro'
         ]
       }]
     }

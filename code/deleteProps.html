@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>清除对象中值为空的属性 | sissi的博客</title>
+    <meta name="description" content="...">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.0d19fd84.css" as="style"><link rel="preload" href="/assets/js/app.af18c1d2.js" as="script"><link rel="preload" href="/assets/js/6.b5cf0e99.js" as="script"><link rel="prefetch" href="/assets/js/2.b928650b.js"><link rel="prefetch" href="/assets/js/3.3bd7007f.js"><link rel="prefetch" href="/assets/js/4.f6c00207.js"><link rel="prefetch" href="/assets/js/5.821af492.js"><link rel="prefetch" href="/assets/js/7.a3c16129.js"><link rel="prefetch" href="/assets/js/8.796157a9.js"><link rel="prefetch" href="/assets/js/9.fc7e37f2.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0d19fd84.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">sissi的博客</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading"><span>入门系列</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/storybook/intro.html" class="sidebar-link">storybook教程</a></li><li><a href="/http2/intro.html" class="sidebar-link">HTTP2介绍</a></li><li><a href="/pwa/intro.html" class="sidebar-link">PWA简介</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading open"><span>CODE</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/code/deleteProps.html" class="active sidebar-link">清除对象中值为空的属性</a></li><li><a href="/code/kString.html" class="sidebar-link">K[string]</a></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h4 id="清除对象中值为空的属性"><a href="#清除对象中值为空的属性" aria-hidden="true" class="header-anchor">#</a> 清除对象中值为空的属性</h4> <p>方法一</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 按照数据类型，分类处理，递归</span>
+<span class="token keyword">function</span> <span class="token function">deleletProps</span> <span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> key <span class="token keyword">in</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 基本数据类型处理 undefined、null</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token keyword">undefined</span> <span class="token operator">||</span> obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">delete</span> obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">// 复杂数据类型，数组(多维数组、数组嵌套对象)</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+                    item <span class="token operator">=</span> item <span class="token keyword">instanceof</span> <span class="token class-name">Object</span> <span class="token operator">?</span> <span class="token function">deleletProps</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">:</span> item
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token keyword">instanceof</span> <span class="token class-name">Object</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">deleletProps</span><span class="token punctuation">(</span>obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> obj
+<span class="token punctuation">}</span>
+</code></pre></div><p>方法二</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 清除对象值为空的属性,返回新对象</span>
+<span class="token keyword">function</span> <span class="token function">deleletProps</span> <span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 递归数组元素</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>obj <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> obj<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">it</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">deleletProps</span><span class="token punctuation">(</span>it<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token comment">// 基本数据类型不处理</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> obj <span class="token operator">!==</span> <span class="token string">'object'</span><span class="token punctuation">)</span>   
+        <span class="token keyword">return</span> obj
+    
+    <span class="token comment">// 对象</span>
+    <span class="token keyword">return</span> Object<span class="token punctuation">.</span><span class="token function">entries</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token comment">// 对象转二维数组</span>
+      <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">[</span>k<span class="token punctuation">,</span> v<span class="token punctuation">]</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> v<span class="token operator">!=</span><span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token comment">// 处理undefined, null</span>
+      <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">[</span>k<span class="token punctuation">,</span> v<span class="token punctuation">]</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">[</span>k<span class="token punctuation">,</span> <span class="token function">deleletProps</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">// 递归属性值value</span>
+      <span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">acc<span class="token punctuation">,</span> <span class="token punctuation">[</span>k<span class="token punctuation">,</span> v<span class="token punctuation">]</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">:</span> v<span class="token punctuation">,</span> <span class="token operator">...</span>acc<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token comment">// 二维数组转对象</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>测试数据</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> man <span class="token operator">=</span> <span class="token punctuation">{</span>
+    age<span class="token punctuation">:</span> <span class="token number">40</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+    smart<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    wife<span class="token punctuation">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    home<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    work<span class="token punctuation">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">income</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token number">100</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    children<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'son'</span><span class="token punctuation">,</span>
+        age<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+        school<span class="token punctuation">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span>
+        work<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+        interest<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            idols<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+                    idol1<span class="token punctuation">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span>
+                    idol2<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                    idol3<span class="token punctuation">:</span> <span class="token keyword">null</span>
+                <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            study<span class="token punctuation">:</span> <span class="token keyword">null</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// output</span>
+<span class="token punctuation">{</span>
+    children<span class="token punctuation">:</span> <span class="token punctuation">{</span> 
+        interest<span class="token punctuation">:</span> <span class="token punctuation">{</span> 
+            idols<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> 
+                idol2<span class="token punctuation">:</span> <span class="token punctuation">[</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token punctuation">]</span> 
+            <span class="token punctuation">}</span><span class="token punctuation">]</span> 
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+        age<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span> 
+        name<span class="token punctuation">:</span> <span class="token string">'son'</span> 
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">income</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token number">100</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    wife<span class="token punctuation">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    smart<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+    age<span class="token punctuation">:</span> <span class="token number">40</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/pwa/intro.html" class="prev">
+          PWA简介
+        </a></span> <span class="next"><a href="/code/kString.html">
+          K[string]
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/assets/js/app.af18c1d2.js" defer></script><script src="/assets/js/6.b5cf0e99.js" defer></script>
+  </body>
+</html>

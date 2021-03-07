@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>K[string] | sissi的博客</title>
+    <meta name="description" content="...">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.0d19fd84.css" as="style"><link rel="preload" href="/assets/js/app.af18c1d2.js" as="script"><link rel="preload" href="/assets/js/7.a3c16129.js" as="script"><link rel="prefetch" href="/assets/js/2.b928650b.js"><link rel="prefetch" href="/assets/js/3.3bd7007f.js"><link rel="prefetch" href="/assets/js/4.f6c00207.js"><link rel="prefetch" href="/assets/js/5.821af492.js"><link rel="prefetch" href="/assets/js/6.b5cf0e99.js"><link rel="prefetch" href="/assets/js/8.796157a9.js"><link rel="prefetch" href="/assets/js/9.fc7e37f2.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0d19fd84.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">sissi的博客</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading"><span>入门系列</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/storybook/intro.html" class="sidebar-link">storybook教程</a></li><li><a href="/http2/intro.html" class="sidebar-link">HTTP2介绍</a></li><li><a href="/pwa/intro.html" class="sidebar-link">PWA简介</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading open"><span>CODE</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/code/deleteProps.html" class="sidebar-link">清除对象中值为空的属性</a></li><li><a href="/code/kString.html" class="active sidebar-link">K[string]</a></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h4 id="k-string"><a href="#k-string" aria-hidden="true" class="header-anchor">#</a> K[string]</h4> <div class="language- extra-class"><pre class="language-text"><code>// k[string], k是整数, string一串字符串  
+// '2[ab]' =&gt; 'abab'  
+// '2[d2[abc]]' =&gt; 'dabcabcdabcabc'  
+// '2[d2[m]p]' =&gt; 'dmmpdmmp'  
+</code></pre></div><p>方法一</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">getString</span><span class="token punctuation">(</span><span class="token parameter">str</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 由内向外找到第一个需要迭代的字符串</span>
+    <span class="token keyword">let</span> left <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">lastIndexOf</span><span class="token punctuation">(</span><span class="token string">'['</span><span class="token punctuation">)</span>
+    <span class="token keyword">let</span> right <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">']'</span><span class="token punctuation">)</span>
+    <span class="token keyword">let</span> innerString <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>left<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>right<span class="token punctuation">)</span>
+
+    <span class="token comment">// 找到字符串之前的数字</span>
+    <span class="token keyword">let</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> num <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> left<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token regex">/[0-9]/</span><span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>str<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            num <span class="token operator">=</span> <span class="token string">''</span> <span class="token operator">+</span> str<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> num
+            count<span class="token operator">++</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">break</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// k 乘以字符串, 合成新的字符串</span>
+    <span class="token keyword">let</span> newString <span class="token operator">=</span> innerString
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token function">Number</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        newString <span class="token operator">+=</span> innerString
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 合成后的字符串，替换原k[string]</span>
+    <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token string">''</span>
+    result <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>left<span class="token operator">-</span>count<span class="token punctuation">)</span> <span class="token operator">+</span> newString <span class="token operator">+</span> str<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>right<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/]/</span><span class="token punctuation">,</span><span class="token string">''</span><span class="token punctuation">)</span>
+   
+    <span class="token comment">// 若不存在[结束,否则递归</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'['</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">?</span> result <span class="token punctuation">:</span> <span class="token function">getString</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>方法二</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">getString2</span><span class="token punctuation">(</span><span class="token parameter">kstr</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 匹配 (前缀)(数字)[(内层字符串)](后缀)</span>
+    <span class="token keyword">const</span> regResult <span class="token operator">=</span> <span class="token regex">/(.*?)(\d+)\[(.+)\](.*)/</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>kstr<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> regResult <span class="token operator">==</span> <span class="token keyword">null</span>  
+        <span class="token operator">?</span> kstr <span class="token comment">// 匹配不到结束递归</span>
+        <span class="token punctuation">:</span> regResult<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token comment">// 前缀</span>
+            <span class="token operator">+</span> <span class="token function">Array</span><span class="token punctuation">(</span><span class="token function">Number</span><span class="token punctuation">(</span>regResult<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">getString2</span><span class="token punctuation">(</span>regResult<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+            <span class="token operator">+</span> regResult<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token comment">// 后缀</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>测试数据</p> <div class="language-js extra-class"><pre class="language-js"><code>输入<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">[</span><span class="token constant">M2</span><span class="token punctuation">[</span>AbC<span class="token punctuation">]</span><span class="token punctuation">]</span>
+输出<span class="token punctuation">:</span> MAbCAbCMAbCAbC
+输入<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">[</span><span class="token constant">CJ</span><span class="token punctuation">]</span>
+输出<span class="token punctuation">:</span> <span class="token constant">CJCJ</span>
+输入<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">[</span><span class="token constant">A3</span><span class="token punctuation">[</span><span class="token constant">B</span><span class="token punctuation">]</span><span class="token constant">C</span><span class="token punctuation">]</span>
+输出<span class="token punctuation">:</span> <span class="token constant">ABBBCABBBC</span>
+输入<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">[</span><span class="token constant">A3</span><span class="token punctuation">[</span><span class="token constant">B</span><span class="token punctuation">]</span><span class="token constant">CK</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+输出<span class="token punctuation">:</span> <span class="token constant">ABBBCKABBBCKABBBCKABBBCK</span>
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/code/deleteProps.html" class="prev">
+          清除对象中值为空的属性
+        </a></span> <!----></p></div> </div> <!----></div></div>
+    <script src="/assets/js/app.af18c1d2.js" defer></script><script src="/assets/js/7.a3c16129.js" defer></script>
+  </body>
+</html>

@@ -4,12 +4,20 @@ module.exports = {
   themeConfig: {
     sidebar: {
       '/': [{
-        title: '前端',
+        title: '入门系列',
         collapsable: false,
         children: [
           '/storybook/intro',
           '/http2/intro',
           '/pwa/intro'
+        ]
+      },
+      {
+        title: 'CODE',
+        collapsable: false,
+        children: [
+          '/code/deleteProps',
+          '/code/kString'
         ]
       }]
     }
